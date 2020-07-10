@@ -1,0 +1,28 @@
+/*
+ * Copyright (C) 2020, HENSOLDT Cyber GmbH
+ */
+
+import <std_connector.camkes>;
+
+import "components/FlashRpi3/FlashRpi3.camkes";
+
+#include "RamDisk/RamDisk.camkes"
+DECLARE_COMPONENT_RamDisk(InputRamDisk)
+DECLARE_COMPONENT_RamDisk(OutputRamDisk)
+
+assembly {
+    composition {
+        component  FlashRpi3    flashRpi3;
+
+        DECLARE_AND_CONNECT_INSTANCE_RamDisk(
+          InputRamDisk, inputRamDisk,
+          flashRpi3.inputStorage_rpc,
+          flashRpi3.inputStorage_dp)
+
+        // ToDo: Swap this with the SPI driver
+        DECLARE_AND_CONNECT_INSTANCE_RamDisk(
+          OutputRamDisk, outputRamDisk,
+          flashRpi3.outputStorage_rpc,
+          flashRpi3.outputStorage_dp)
+    }
+}

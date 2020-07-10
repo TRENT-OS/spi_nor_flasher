@@ -1,0 +1,17 @@
+/*
+ * Copyright (C) 2020, HENSOLDT Cyber GmbH
+ */
+
+import <if_OS_Storage.camkes>;
+
+component FlashRpi3 {
+//    control;
+
+    // Read from here
+    uses     if_OS_Storage           inputStorage_rpc;
+    dataport Buf                     inputStorage_dp;
+
+    // Write here
+    uses     if_OS_Storage           outputStorage_rpc;
+    dataport Buf                     outputStorage_dp;
+}
