@@ -85,6 +85,59 @@ do_flash(size_t sz)
     return true;
 }
 
+static bool
+do_verify(size_t sz)
+{
+    OS_Error_t err;
+    size_t rd, verified, bsz, left;
+
+    verified    = 0;
+    left        = sz;
+    bsz         = OS_Dataport_getSize(inPort);
+
+    while (left > 0)
+    {
+        if ((err = inputStorage_rpc_read(verified, bsz, &rd)) != OS_SUCCESS)
+        {
+            printf("inputStorage_rpc_read() failed with %i", err);
+            return false;
+        }
+        if (bsz != rd)
+        {
+            printf("wanted to read %zu bytes but did only %zu bytes", sz, rd);
+            return false;
+        }
+
+        if ((err = outputStorage_rpc_read(verified, bsz, &rd)) != OS_SUCCESS)
+        {
+            printf("outputStorage_rpc_read() failed with %i", err);
+            return false;
+        }
+        if (bsz != rd)
+        {
+            printf("wanted to read %zu bytes but did only %zu bytes", sz, rd);
+            return false;
+        }
+
+        size_t differPos =
+            memcmp(OS_Dataport_getBuf(outPort),
+                    OS_Dataport_getBuf(inPort),
+                    bsz);
+        if (differPos)
+        {
+            printf("verification failed comparing bytes at offset %zu",
+                verified + differPos);
+            return false;
+        }
+
+        verified    += bsz;
+        left        -= bsz;
+        bsz         = (left < bsz) ? left : bsz;
+    }
+
+    return true;
+}
+
 void post_init()
 {
     OS_Error_t err;
@@ -114,6 +167,7 @@ void post_init()
 
     printf("Erasing: %s\n", do_erase(szIn) ? "OK" : "FAIL");
     printf("Flashing: %s\n", do_flash(szIn) ? "OK" : "FAIL");
+    printf("Verifyng: %s\n", do_verify(szIn) ? "OK" : "FAIL");
     printf("Done.\n");
 
     return;

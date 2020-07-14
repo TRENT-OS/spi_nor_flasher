@@ -34,15 +34,24 @@ DeclareCAmkESComponent(
 )
 
 DeclareCAmkESComponent_RamDisk(
-    InputRamDisk
+    RamDisk
     system_config
     IMAGE
         flash.c
 )
 
-DeclareCAmkESComponent_RamDisk(
-    OutputRamDisk
-    system_config
+DeclareCAmkESComponent_SPI(
+    SPI
+)
+
+DeclareCAmkESComponent_TimeServer(
+    TimeServer
+)
+
+DeclareCAmkESComponent_Storage_Flash_SPI(
+    Flash
+    LIBS
+        TimeServer_client
 )
 
 DeclareAndCreateCamkESSystem(demo.camkes)
