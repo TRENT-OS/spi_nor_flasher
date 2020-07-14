@@ -60,7 +60,7 @@ do_flash(size_t sz)
         }
         if (bsz != rd)
         {
-            printf("wanted to read %zu bytes but did only %zu bytes", sz, wr);
+            printf("wanted to read %zu bytes but did only %zu bytes", sz, rd);
             return false;
         }
 
