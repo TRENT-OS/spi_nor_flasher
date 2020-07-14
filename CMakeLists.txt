@@ -6,6 +6,8 @@
 
 cmake_minimum_required(VERSION 3.7.2)
 
+os_set_config_file(system_config.h)
+
 #-------------------------------------------------------------------------------
 project(system_config C)
 
