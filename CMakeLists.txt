@@ -18,7 +18,7 @@ target_include_directories(${PROJECT_NAME}
     )
 
 #-------------------------------------------------------------------------------
-project(demo_flash_rpi3 C)
+project(rpi3_flasher C)
 
 DeclareCAmkESComponent(
     FlashRpi3
