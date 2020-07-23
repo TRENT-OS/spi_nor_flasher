@@ -9,14 +9,11 @@ import "components/FlashRpi3/FlashRpi3.camkes";
 #include "RamDisk/RamDisk.camkes";
 DECLARE_COMPONENT_RamDisk(RamDisk)
 
-#include "SPI/SPI.camkes"
-DECLARE_COMPONENT_SPI(SPI)
-
 #include "TimeServer/camkes/TimeServer.camkes"
 DECLARE_COMPONENT_TimeServer(TimeServer)
 
-#include "Storage_Flash/Storage_Flash_SPI.camkes"
-DECLARE_COMPONENT_Storage_Flash_SPI(Flash)
+#include "RPI_SPI_Flash/RPI_SPI_Flash.camkes"
+DECLARE_COMPONENT_RPI_SPI_FLASH_DRV(Flash)
 
 
 assembly {
@@ -28,11 +25,8 @@ assembly {
           flashRpi3.inputStorage_rpc,
           flashRpi3.inputStorage_dp)
 
-        DECLARE_AND_CONNECT_INSTANCE_SPI(SPI, spi)
-
-        DECLARE_AND_CONNECT_INSTANCE_Storage_Flash_SPI(
-            Flash, flash,
-            spi.spi_rpc, spi.spi_port)
+        DECLARE_AND_CONNECT_INSTANCE_RPI_SPI_FLASH(
+            Flash, flash)
 
         DECLARE_AND_CONNECT_INSTANCE_TimeServer(
             TimeServer,
@@ -45,7 +39,7 @@ assembly {
 
     configuration {
         // gpio base register and size, includes the spi base register
-        CONFIGURE_INSTANCE_SPI(spi, 0x3F200000, 0x8000)
+        CONFIGURE_INSTANCE_RPI_SPI_FLASH(flash)
 
         // CONFIGURE_INSTANCE_StorageServer(
         //     storageServer,
