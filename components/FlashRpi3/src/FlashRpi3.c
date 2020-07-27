@@ -167,7 +167,7 @@ void post_init()
 
     printf("Erasing: %s\n", do_erase(szIn) ? "OK" : "FAIL");
     printf("Flashing: %s\n", do_flash(szIn) ? "OK" : "FAIL");
-    printf("Verifyng: %s\n", do_verify(szIn) ? "OK" : "FAIL");
+    printf("Verifying: %s\n", do_verify(szIn) ? "OK" : "FAIL");
     printf("Done.\n");
 
     return;
