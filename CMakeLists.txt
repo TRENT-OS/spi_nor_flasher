@@ -20,6 +20,8 @@ target_include_directories(${PROJECT_NAME}
 #-------------------------------------------------------------------------------
 project(rpi3_flasher C)
 
+set(LibUtilsDefaultZfLogLevel 5 CACHE STRING "" FORCE)
+
 DeclareCAmkESComponent(
     FlashRpi3
     SOURCES
