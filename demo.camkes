@@ -31,7 +31,7 @@ assembly {
         DECLARE_AND_CONNECT_INSTANCE_TimeServer(
             TimeServer,
             timeServer,
-            flash.timeServer_rpc)
+            flash.timeServer_rpc, flash.timeServer_notify)
 
         connection  seL4RPCCall     conn_storage_flash_rpc(from flashRpi3.outputStorage_rpc, to flash.storage_rpc);
         connection  seL4SharedData  my_dp(from flash.storage_port, to flashRpi3.outputStorage_dp);
