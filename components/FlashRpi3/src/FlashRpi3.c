@@ -16,10 +16,10 @@ static const OS_Dataport_t inPort  = OS_DATAPORT_ASSIGN(inputStorage_dp);
 static const OS_Dataport_t outPort = OS_DATAPORT_ASSIGN(outputStorage_dp);
 
 static bool
-do_erase(size_t sz)
+do_erase(off_t sz)
 {
     OS_Error_t err;
-    size_t wr;
+    off_t wr;
 
     if ((err = outputStorage_rpc_erase(0, sz, &wr)) != OS_SUCCESS)
     {
@@ -28,7 +28,12 @@ do_erase(size_t sz)
     }
     if (sz != wr)
     {
-        printf("wanted to erase %zu bytes but did only %zu bytes", sz, wr);
+        printf(
+            "wanted to erase %" PRIiMAX " bytes "
+            "but did only %" PRIiMAX " bytes",
+            sz,
+            wr);
+
         return false;
     }
 
@@ -36,10 +41,11 @@ do_erase(size_t sz)
 }
 
 static bool
-do_flash(size_t sz)
+do_flash(off_t sz)
 {
     OS_Error_t err;
-    size_t rd, wr, flashed, bsz, left;
+    size_t rd, wr;
+    off_t flashed, bsz, left;
 
     /*
      * Flash from input storage to output storage using the rpc calls and
@@ -60,7 +66,11 @@ do_flash(size_t sz)
         }
         if (bsz != rd)
         {
-            printf("wanted to read %zu bytes but did only %zu bytes", sz, rd);
+            printf(
+                "wanted to read %" PRIiMAX " bytes but did only %zu bytes",
+                sz,
+                rd);
+
             return false;
         }
 
@@ -73,7 +83,11 @@ do_flash(size_t sz)
         }
         if (bsz != wr)
         {
-            printf("wanted to write %zu bytes but did only %zu bytes", sz, wr);
+            printf(
+                "wanted to write %" PRIiMAX " bytes but did only %zu bytes",
+                sz,
+                wr);
+
             return false;
         }
 
@@ -86,10 +100,11 @@ do_flash(size_t sz)
 }
 
 static bool
-do_verify(size_t sz)
+do_verify(off_t sz)
 {
     OS_Error_t err;
-    size_t rd, verified, bsz, left;
+    size_t rd;
+    off_t verified, bsz, left;
 
     verified    = 0;
     left        = sz;
@@ -104,7 +119,11 @@ do_verify(size_t sz)
         }
         if (bsz != rd)
         {
-            printf("wanted to read %zu bytes but did only %zu bytes", sz, rd);
+            printf(
+                "wanted to read %" PRIiMAX " bytes but did only %zu bytes",
+                sz,
+                rd);
+
             return false;
         }
 
@@ -115,7 +134,11 @@ do_verify(size_t sz)
         }
         if (bsz != rd)
         {
-            printf("wanted to read %zu bytes but did only %zu bytes", sz, rd);
+            printf(
+                "wanted to read %" PRIiMAX " bytes but did only %zu bytes",
+                sz,
+                rd);
+
             return false;
         }
 
@@ -125,7 +148,7 @@ do_verify(size_t sz)
                     bsz);
         if (differPos)
         {
-            printf("verification failed comparing bytes at offset %zu",
+            printf("verification failed comparing bytes at offset %" PRIiMAX,
                 verified + differPos);
             return false;
         }
@@ -141,7 +164,7 @@ do_verify(size_t sz)
 void post_init()
 {
     OS_Error_t err;
-    size_t szIn = 0, szOut = 0;
+    off_t szIn = 0, szOut = 0;
 
     // Make sure dataport sizes match
     Debug_ASSERT(OS_Dataport_getSize(inPort) == OS_Dataport_getSize(outPort));
@@ -157,8 +180,8 @@ void post_init()
         return;
     }
 
-    printf("Input storage reports size of %zu bytes\n", szIn);
-    printf("Output storage reports size of %zu bytes\n", szOut);
+    printf("Input storage reports size of %" PRIiMAX " bytes\n", szIn);
+    printf("Output storage reports size of %" PRIiMAX " bytes\n", szOut);
     if (szIn > szOut)
     {
         printf("Input is too big.");
