@@ -42,6 +42,10 @@ assembly {
         // gpio base register and size, includes the spi base register
         CONFIGURE_INSTANCE_RPI_SPI_FLASH(flash)
 
+        TimeServer_CLIENT_ASSIGN_BADGES(
+            flash.timeServer_rpc
+        )
+
         // CONFIGURE_INSTANCE_StorageServer(
         //     storageServer,
         //     0, 64*1024)
