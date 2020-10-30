@@ -34,7 +34,7 @@ DeclareCAmkESComponent_RamDisk(
         flash.c
 )
 
-DeclareCAmkESComponent_TimeServer(
+TimeServer_DeclareCAmkESComponent(
     TimeServer
 )
 
