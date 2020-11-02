@@ -27,7 +27,7 @@ DeclareCAmkESComponent(
         os_libs
 )
 
-DeclareCAmkESComponent_RamDisk(
+RamDisk_DeclareCAmkESComponent(
     RamDisk
     system_config
     IMAGE
