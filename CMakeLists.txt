@@ -38,8 +38,8 @@ TimeServer_DeclareCAmkESComponent(
     TimeServer
 )
 
-DeclareCAmkESComponent_RPI_SPI_Flash(
-    Flash
+RPi_SPI_Flash_DeclareCAmkESComponent(
+    RPi_SPI_Flash
     LIBS
         TimeServer_client
 )
