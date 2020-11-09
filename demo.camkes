@@ -12,8 +12,9 @@ RamDisk_COMPONENT_DECLARE(RamDisk)
 #include "TimeServer/camkes/TimeServer.camkes"
 TimeServer_COMPONENT_DECLARE(TimeServer)
 
-#include "RPI_SPI_Flash/RPI_SPI_Flash.camkes"
-DECLARE_COMPONENT_RPI_SPI_FLASH_DRV(Flash)
+#include "RPI_SPI_Flash/RPi_SPI_Flash.camkes"
+RPi_SPI_Flash_COMPONENT_DECLARE(RPi_SPI_Flash)
+RPi_SPI_Flash_HW_COMPONENT_DECLARE(RPi_SPI_Flash_HW)
 
 
 assembly {
@@ -27,21 +28,28 @@ assembly {
           flashRpi3.inputStorage_rpc,
           flashRpi3.inputStorage_dp)
 
-        DECLARE_AND_CONNECT_INSTANCE_RPI_SPI_FLASH(
-            Flash, flash)
+        component RPi_SPI_Flash     flash;
+        component RPi_SPI_Flash_HW  flash_hw;
+
+        RPi_SPI_Flash_INSTANCE_CONNECT(
+            flash,
+            flash_hw
+        )
+        RPi_SPI_Flash_INSTANCE_CONNECT_CLIENT(
+            flash,
+            flashRpi3.outputStorage_rpc, flashRpi3.outputStorage_dp
+        )
 
         TimeServer_INSTANCE_CONNECT_CLIENTS(
             timeServer,
             flash.timeServer_rpc, flash.timeServer_notify
         )
-
-        connection  seL4RPCCall     conn_storage_flash_rpc(from flashRpi3.outputStorage_rpc, to flash.storage_rpc);
-        connection  seL4SharedData  my_dp(from flash.storage_port, to flashRpi3.outputStorage_dp);
     }
 
     configuration {
-        // gpio base register and size, includes the spi base register
-        CONFIGURE_INSTANCE_RPI_SPI_FLASH(flash)
+        RPi_SPI_Flash_HW_INSTANCE_CONFIGURE_SELF(
+            flash_hw
+        )
 
         TimeServer_CLIENT_ASSIGN_BADGES(
             flash.timeServer_rpc
