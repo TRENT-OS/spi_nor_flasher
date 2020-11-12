@@ -7,7 +7,7 @@ import <std_connector.camkes>;
 import "components/FlashRpi3/FlashRpi3.camkes";
 
 #include "RamDisk/RamDisk.camkes";
-DECLARE_COMPONENT_RamDisk(RamDisk)
+RamDisk_COMPONENT_DECLARE(RamDisk)
 
 #include "TimeServer/camkes/TimeServer.camkes"
 TimeServer_COMPONENT_DECLARE(TimeServer)
@@ -20,9 +20,10 @@ assembly {
     composition {
         component  FlashRpi3    flashRpi3;
         component  TimeServer   timeServer;
+        component  RamDisk      inputRamDisk;
 
-        DECLARE_AND_CONNECT_INSTANCE_RamDisk(
-          RamDisk, inputRamDisk,
+        RamDisk_INSTANCE_CONNECT_CLIENT(
+          inputRamDisk,
           flashRpi3.inputStorage_rpc,
           flashRpi3.inputStorage_dp)
 
