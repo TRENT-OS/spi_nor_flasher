@@ -12,7 +12,7 @@ RamDisk_COMPONENT_DEFINE(RamDisk)
 #include "TimeServer/camkes/TimeServer.camkes"
 TimeServer_COMPONENT_DEFINE(TimeServer)
 
-#include "RPI_SPI_Flash/RPi_SPI_Flash.camkes"
+#include "RPi_SPI_Flash/RPi_SPI_Flash.camkes"
 RPi_SPI_Flash_COMPONENT_DEFINE(RPi_SPI_Flash)
 RPi_SPI_Flash_HW_COMPONENT_DEFINE(RPi_SPI_Flash_HW)
 
