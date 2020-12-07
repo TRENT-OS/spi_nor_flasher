@@ -20,21 +20,33 @@ do_erase(off_t sz)
 {
     OS_Error_t err;
     off_t wr;
+    off_t erased, bsz, left;
 
-    if ((err = outputStorage_rpc_erase(0, sz, &wr)) != OS_SUCCESS)
-    {
-        printf("outputStorage_rpc_erase() failed with %i", err);
-        return false;
-    }
-    if (sz != wr)
-    {
-        printf(
-            "wanted to erase %" PRIiMAX " bytes "
-            "but did only %" PRIiMAX " bytes",
-            sz,
-            wr);
+    erased  = 0;
+    left    = sz;
+    bsz     = OS_Dataport_getSize(inPort);
 
-        return false;
+    while (left > 0)
+    {
+        if ((err = outputStorage_rpc_erase(erased, bsz, &wr)) != OS_SUCCESS)
+        {
+            printf("outputStorage_rpc_erase() failed with %i", err);
+            return false;
+        }
+        if (bsz != wr)
+        {
+            printf(
+                "wanted to erase %" PRIiMAX " bytes "
+                "but did only %" PRIiMAX " bytes",
+                bsz,
+                wr);
+
+            return false;
+        }
+
+        erased  += bsz;
+        left    -= bsz;
+        bsz      = (left < bsz) ? left : bsz;
     }
 
     return true;

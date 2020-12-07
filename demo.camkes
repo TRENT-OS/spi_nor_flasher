@@ -12,9 +12,9 @@ RamDisk_COMPONENT_DEFINE(RamDisk)
 #include "TimeServer/camkes/TimeServer.camkes"
 TimeServer_COMPONENT_DEFINE(TimeServer)
 
-#include "RPi_SPI_Flash/RPi_SPI_Flash.camkes"
-RPi_SPI_Flash_COMPONENT_DEFINE(RPi_SPI_Flash)
-RPi_SPI_Flash_HW_COMPONENT_DEFINE(RPi_SPI_Flash_HW)
+#include "RPi_SPI_SD/RPi_SPI_SD.camkes"
+RPi_SPI_SD_COMPONENT_DEFINE(RPi_SPI_SD)
+RPi_SPI_SD_HW_COMPONENT_DEFINE(RPi_SPI_SD_HW)
 
 
 assembly {
@@ -28,31 +28,31 @@ assembly {
           flashRpi3.inputStorage_rpc,
           flashRpi3.inputStorage_dp)
 
-        component RPi_SPI_Flash     flash;
-        component RPi_SPI_Flash_HW  flash_hw;
+        component RPi_SPI_SD     sd;
+        component RPi_SPI_SD_HW  sd_hw;
 
-        RPi_SPI_Flash_INSTANCE_CONNECT(
-            flash,
-            flash_hw
+        RPi_SPI_SD_INSTANCE_CONNECT(
+            sd,
+            sd_hw
         )
-        RPi_SPI_Flash_INSTANCE_CONNECT_CLIENT(
-            flash,
+        RPi_SPI_SD_INSTANCE_CONNECT_CLIENT(
+            sd,
             flashRpi3.outputStorage_rpc, flashRpi3.outputStorage_dp
         )
 
         TimeServer_INSTANCE_CONNECT_CLIENTS(
             timeServer,
-            flash.timeServer_rpc, flash.timeServer_notify
+            sd.timeServer_rpc, sd.timeServer_notify
         )
     }
 
     configuration {
-        RPi_SPI_Flash_HW_INSTANCE_CONFIGURE_SELF(
-            flash_hw
+        RPi_SPI_SD_HW_INSTANCE_CONFIGURE_SELF(
+            sd_hw
         )
 
         TimeServer_CLIENT_ASSIGN_BADGES(
-            flash.timeServer_rpc
+            sd.timeServer_rpc
         )
     }
 }
