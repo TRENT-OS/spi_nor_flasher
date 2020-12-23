@@ -23,8 +23,8 @@ DeclareCAmkESComponent(
         -Werror
     LIBS
         system_config
+        lib_debug
         os_core_api
-        os_libs
 )
 
 RamDisk_DeclareCAmkESComponent(

@@ -4,7 +4,7 @@
 
 #include "OS_Dataport.h"
 
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 
 #include <stdio.h>
 #include <string.h>
