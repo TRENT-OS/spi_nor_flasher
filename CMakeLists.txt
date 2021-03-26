@@ -23,6 +23,7 @@ DeclareCAmkESComponent(
         -Werror
     LIBS
         system_config
+        lib_compiler
         lib_debug
         os_core_api
 )

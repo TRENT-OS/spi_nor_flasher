@@ -4,6 +4,7 @@
 
 #include "OS_Dataport.h"
 
+#include "lib_compiler/compiler.h"
 #include "lib_debug/Debug.h"
 
 #include <stdio.h>
@@ -167,7 +168,9 @@ void post_init()
     off_t szIn = 0, szOut = 0;
 
     // Make sure dataport sizes match
-    Debug_ASSERT(OS_Dataport_getSize(inPort) == OS_Dataport_getSize(outPort));
+    DECL_UNUSED_VAR(const bool arePortsSizesEqual) =
+        (OS_Dataport_getSize(inPort) == OS_Dataport_getSize(outPort));
+    Debug_ASSERT(arePortsSizesEqual);
 
     if ((err = outputStorage_rpc_getSize(&szOut)) != OS_SUCCESS)
     {
