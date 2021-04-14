@@ -9,9 +9,9 @@ component FlashRpi3 {
 
     // Read from here
     uses     if_OS_Storage           inputStorage_rpc;
-    dataport Buf                     inputStorage_dp;
+    dataport Buf                     inputStorage_port;
 
     // Write here
     uses     if_OS_Storage           outputStorage_rpc;
-    dataport Buf                     outputStorage_dp;
+    dataport Buf                     outputStorage_port;
 }

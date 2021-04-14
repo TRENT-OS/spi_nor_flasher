@@ -12,8 +12,8 @@
 
 #include <camkes.h>
 
-static const OS_Dataport_t inPort  = OS_DATAPORT_ASSIGN(inputStorage_dp);
-static const OS_Dataport_t outPort = OS_DATAPORT_ASSIGN(outputStorage_dp);
+static const OS_Dataport_t inPort  = OS_DATAPORT_ASSIGN(inputStorage_port);
+static const OS_Dataport_t outPort = OS_DATAPORT_ASSIGN(outputStorage_port);
 
 static bool
 do_erase(off_t sz)

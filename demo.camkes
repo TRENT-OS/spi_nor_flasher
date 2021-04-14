@@ -26,7 +26,7 @@ assembly {
         RamDisk_INSTANCE_CONNECT_CLIENT(
           inputRamDisk,
           flashRpi3.inputStorage_rpc,
-          flashRpi3.inputStorage_dp)
+          flashRpi3.inputStorage_port)
 
         component RPi_SPI_Flash     flash;
         component RPi_SPI_Flash_HW  flash_hw;
@@ -37,7 +37,7 @@ assembly {
         )
         RPi_SPI_Flash_INSTANCE_CONNECT_CLIENT(
             flash,
-            flashRpi3.outputStorage_rpc, flashRpi3.outputStorage_dp
+            flashRpi3.outputStorage_rpc, flashRpi3.outputStorage_port
         )
 
         TimeServer_INSTANCE_CONNECT_CLIENTS(
