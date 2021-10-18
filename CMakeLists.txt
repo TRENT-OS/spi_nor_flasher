@@ -29,7 +29,6 @@ DeclareCAmkESComponent(
 
 RamDisk_DeclareCAmkESComponent(
     RamDisk
-    system_config
     IMAGE
         flash.c
 )

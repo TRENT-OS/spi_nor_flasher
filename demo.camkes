@@ -54,5 +54,7 @@ assembly {
         TimeServer_CLIENT_ASSIGN_BADGES(
             flash.timeServer_rpc
         )
+
+        inputRamDisk.storage_size = (1 * 1024 * 1024);
     }
 }
