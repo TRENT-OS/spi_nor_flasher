@@ -1,7 +1,7 @@
-/**
- * Copyright (C) 2020, Hensoldt Cyber GmbH
- *
+/*
  * OS libraries configurations
+ *
+ * Copyright (C) 2020-2021, HENSOLDT Cyber GmbH
  */
 
 #pragma once
