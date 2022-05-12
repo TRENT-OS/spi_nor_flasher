@@ -6,13 +6,17 @@
 
 cmake_minimum_required(VERSION 3.7.2)
 
-os_set_config_file("system_config.h" CREATE_CONFIG_PROJECT)
-
+#-------------------------------------------------------------------------------
+# use the SDK
+find_package("os-sdk" REQUIRED)
+os_sdk_set_defaults()
+set(LibUtilsDefaultZfLogLevel 5 CACHE STRING "" FORCE)
+os_sdk_setup(CONFIG_FILE "system_config.h" CONFIG_PROJECT "system_config")
 
 #-------------------------------------------------------------------------------
 project(rpi3_flasher C)
 
-set(LibUtilsDefaultZfLogLevel 5 CACHE STRING "" FORCE)
+CAmkESAddCPPInclude("plat/${PLATFORM}")
 
 DeclareCAmkESComponent(
     FlashRpi3
@@ -43,5 +47,4 @@ RPi_SPI_Flash_DeclareCAmkESComponent(
         TimeServer_client
 )
 
-DeclareAndCreateCamkESSystem(demo.camkes)
-GenerateSimulateScript()
+os_sdk_create_CAmkES_system("demo.camkes")
